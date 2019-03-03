@@ -73,6 +73,11 @@ object Crc32Cracker {
         return candidates
     }
 
+    /**
+     * crack a crc32 checksum
+     *
+     * @param hash hash in Integer
+     */
     @JvmStatic
     fun crack(hash: Int): List<Int> {
         val candidates = LinkedList<Int>()
@@ -100,6 +105,11 @@ object Crc32Cracker {
         return candidates
     }
 
+    /**
+     * crack a crc32 checksum
+     *
+     * @param hash hash in String
+     */
     @UseExperimental(ExperimentalUnsignedTypes::class)
     @JvmStatic
     fun crack(hash: String) = Crc32Cracker.crack(hash.toUInt(16).toInt())

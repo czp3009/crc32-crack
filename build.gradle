@@ -1,24 +1,88 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.3.21'
+    id 'maven-publish'
+    id 'signing'
 }
 
 group 'com.hiczp'
 version '1.0'
+description 'crc32-crack library for jvm'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 }
 
 compileKotlin {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
-        freeCompilerArgs = ["-Xuse-experimental=kotlin.Experimental"]
+        freeCompilerArgs = ['-Xuse-experimental=kotlin.Experimental']
     }
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    archiveClassifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+
+publishing {
+    repositories {
+        maven {
+            url = uri('https://oss.sonatype.org/service/local/staging/deploy/maven2/')
+            credentials {
+                username = project.properties['ossUsername']
+                password = project.properties['ossPassword']
+            }
+        }
+    }
+
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = project.name
+                description = project.description
+                url = 'https://github.com/czp3009/crc32-crack'
+
+                licenses {
+                    license {
+                        name = 'GNU GENERAL PUBLIC LICENSE Version 3'
+                        url = 'https://www.gnu.org/licenses/gpl-3.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'czp3009'
+                        name = 'czp3009'
+                        email = 'https://www.hiczp.com'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/czp3009/crc32-crack.git'
+                    developerConnection = 'scm:git:ssh://github.com/czp3009/crc32-crack.git'
+                    url = 'https://github.com/czp3009/crc32-crack'
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.maven
 }

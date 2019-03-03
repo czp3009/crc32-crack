@@ -103,17 +103,22 @@ val hashes = arrayOf(
 
 //test on i7-8700
 fun main() {
-    //307 ms
-    val initStart = System.currentTimeMillis()
-    val crc32Cracker = Crc32Cracker
-    val initEnd = System.currentTimeMillis()
-    println("Init finish in ${initEnd - initStart} ms")
-
-    //82 ms
-    val start = System.currentTimeMillis()
-    hashes.forEach {
-        println(crc32Cracker.crack(it))
+    //310 ms
+    timer("Init") {
+        Crc32Cracker
     }
+
+    //80 ms
+    timer("${hashes.size} hashes") {
+        hashes.forEach {
+            println(Crc32Cracker.crack(it))
+        }
+    }
+}
+
+private inline fun timer(string: String = "", block: () -> Unit) {
+    val start = System.currentTimeMillis()
+    block()
     val end = System.currentTimeMillis()
-    println("${hashes.size} hashes done in ${end - start} ms")
+    println("$string finish in ${end - start} ms")
 }
