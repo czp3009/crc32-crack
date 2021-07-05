@@ -20,10 +20,10 @@ repositories {
     mavenCentral()
 }
 
+//kotlin
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib'
 }
-
 compileKotlin {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
@@ -32,6 +32,12 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+}
+
+//code generate
+dependencies {
+    // https://mvnrepository.com/artifact/com.squareup/kotlinpoet
+    compileOnly group: 'com.squareup', name: 'kotlinpoet', version: '1.9.0'
 }
 
 task sourcesJar(type: Jar) {
