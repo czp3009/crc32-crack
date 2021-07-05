@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.41'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20'
     }
 }
 
@@ -13,7 +13,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 group 'com.hiczp'
-version '1.0'
+version '2.0-SNAPSHOT'
 description 'crc32-crack library for jvm'
 
 repositories {
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
 }
 
 compileKotlin {
@@ -93,4 +93,8 @@ publishing {
 
 signing {
     sign publishing.publications.maven
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    tasks.signMavenPublication.onlyIf { taskGraph.hasTask tasks.publish }
 }
