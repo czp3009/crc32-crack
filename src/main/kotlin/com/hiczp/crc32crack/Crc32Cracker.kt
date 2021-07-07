@@ -110,9 +110,8 @@ object Crc32Cracker {
      *
      * @param hash hash in String
      */
-    @UseExperimental(ExperimentalUnsignedTypes::class)
     @JvmStatic
-    fun crack(hash: String) = Crc32Cracker.crack(hash.toUInt(16).toInt())
+    fun crack(hash: String) = crack(hash.toUInt(16).toInt())
 }
 
 //do transform on original array
