@@ -1,0 +1,75 @@
+apply plugin: 'kotlin-kapt'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+//apt
+dependencies {
+    compileOnly project(':annotation')
+    kapt project(':annotation-processor')
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    archiveClassifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+
+publishing {
+    repositories {
+        maven {
+            url = uri('https://oss.sonatype.org/service/local/staging/deploy/maven2/')
+            credentials {
+                username = rootProject.properties['ossUsername']
+                password = rootProject.properties['ossPassword']
+            }
+        }
+    }
+
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifactId = rootProject.name
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = rootProject.name
+                description = project.description
+                url = 'https://github.com/czp3009/crc32-crack'
+
+                licenses {
+                    license {
+                        name = 'GNU GENERAL PUBLIC LICENSE Version 3'
+                        url = 'https://www.gnu.org/licenses/gpl-3.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'czp3009'
+                        name = 'czp3009'
+                        email = 'https://www.hiczp.com'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/czp3009/crc32-crack.git'
+                    developerConnection = 'scm:git:ssh://github.com/czp3009/crc32-crack.git'
+                    url = 'https://github.com/czp3009/crc32-crack'
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.maven
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    tasks.signMavenPublication.onlyIf { taskGraph.hasTask tasks.publish }
+}

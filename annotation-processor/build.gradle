@@ -1,0 +1,18 @@
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+    implementation project(':annotation')
+}
+
+//code generate
+dependencies {
+    // https://mvnrepository.com/artifact/com.squareup/kotlinpoet
+    implementation group: 'com.squareup', name: 'kotlinpoet', version: '1.9.0'
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/com.google.auto.service/auto-service-annotations
+    compileOnly group: 'com.google.auto.service', name: 'auto-service-annotations', version: '1.0'
+    // https://mvnrepository.com/artifact/com.google.auto.service/auto-service
+    kapt group: 'com.google.auto.service', name: 'auto-service', version: '1.0'
+}

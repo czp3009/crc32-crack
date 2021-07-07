@@ -8,99 +8,25 @@ buildscript {
     }
 }
 
-apply plugin: 'kotlin'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
+subprojects {
+    group 'com.hiczp'
+    version '2.0-SNAPSHOT'
+    description 'crc32-crack library for jvm'
 
-group 'com.hiczp'
-version '2.0-SNAPSHOT'
-description 'crc32-crack library for jvm'
+    apply plugin: 'kotlin'
 
-repositories {
-    mavenCentral()
-}
-
-//kotlin
-dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib'
-}
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
-        freeCompilerArgs = ['-Xuse-experimental=kotlin.Experimental']
-    }
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
-}
-
-//code generate
-dependencies {
-    // https://mvnrepository.com/artifact/com.squareup/kotlinpoet
-    compileOnly group: 'com.squareup', name: 'kotlinpoet', version: '1.9.0'
-}
-
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    archiveClassifier = 'sources'
-}
-
-task javadocJar(type: Jar) {
-    from javadoc
-    archiveClassifier = 'javadoc'
-}
-
-publishing {
     repositories {
-        maven {
-            url = uri('https://oss.sonatype.org/service/local/staging/deploy/maven2/')
-            credentials {
-                username = project.properties['ossUsername']
-                password = project.properties['ossPassword']
-            }
-        }
+        mavenCentral()
     }
 
-    publications {
-        maven(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-
-            pom {
-                name = project.name
-                description = project.description
-                url = 'https://github.com/czp3009/crc32-crack'
-
-                licenses {
-                    license {
-                        name = 'GNU GENERAL PUBLIC LICENSE Version 3'
-                        url = 'https://www.gnu.org/licenses/gpl-3.0.txt'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id = 'czp3009'
-                        name = 'czp3009'
-                        email = 'https://www.hiczp.com'
-                    }
-                }
-
-                scm {
-                    connection = 'scm:git:git://github.com/czp3009/crc32-crack.git'
-                    developerConnection = 'scm:git:ssh://github.com/czp3009/crc32-crack.git'
-                    url = 'https://github.com/czp3009/crc32-crack'
-                }
-            }
-        }
+    //kotlin
+    dependencies {
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib'
     }
-}
-
-signing {
-    sign publishing.publications.maven
-}
-
-gradle.taskGraph.whenReady { taskGraph ->
-    tasks.signMavenPublication.onlyIf { taskGraph.hasTask tasks.publish }
+    compileKotlin {
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+    }
 }

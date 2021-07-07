@@ -1,1 +1,5 @@
 rootProject.name = 'crc32-crack'
+
+include 'core'
+include 'annotation'
+include 'annotation-processor'
