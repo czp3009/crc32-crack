@@ -29,7 +29,9 @@ println(originals)
 
 note that original number may not unique.
 
-If want to init `Crc32Cracker` eager:
+`Crc32Crack` need to generate crc32 rainbow table before crack, this operation cost some time.
+
+If want to init `Crc32Cracker` eager, call the Object first:
 
 ```kotlin
 Crc32Cracker
@@ -39,4 +41,5 @@ println(Crc32Cracker.crack("fb6db529"))
 Init cost about 310ms and one hash cost less than 1ms(test on Intel i7-8700)
 
 # License
+
 GPL V3
