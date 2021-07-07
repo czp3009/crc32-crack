@@ -3,7 +3,7 @@ If original content is a Integer(not unsigned int) so we can crack it's CRC32 ch
 
 # gradle
 ```groovy
-compile group: 'com.hiczp', name: 'crc32-crack', version: '1.0'
+compile group: 'com.hiczp', name: 'crc32-crack', version: '1.1'
 ```
 
 # usage
