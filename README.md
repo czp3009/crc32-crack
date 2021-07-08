@@ -1,12 +1,15 @@
 # CRC32 Cracker
-If original content is a Integer(not unsigned int) so we can crack it's CRC32 checksum in very limited time.
+
+If original content is an Integer(not unsigned int), so we can crack it's CRC32 checksum in very limited time.
 
 # gradle
+
 ```groovy
-compile group: 'com.hiczp', name: 'crc32-crack', version: '1.1'
+implementation group: 'com.hiczp', name: 'crc32-crack', version: '1.1'
 ```
 
 # usage
+
 Kotlin:
 
 ```kotlin
